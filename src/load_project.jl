@@ -3,10 +3,9 @@ function load_project()
   project_info["datasets"] = Dict{ASCIIString, Any}()
 
   message("Loading project configuration")
-  # TODO: Turn this back on and actively read config file
-  # if !isfile(file_path("config", "global.json"))
-  #   error("You are missing a configuration file: config/global.json")
-  # end
+  if !isfile(file_path("config", "global.json"))
+    error("You are missing a configuration file: config/global.json")
+  end
   global config = read_config(file_path("config", "global.json"))
   if !has(config, "libraries")
     warning("Your configuration file is missing an entry: libraries")
@@ -22,7 +21,8 @@ function load_project()
     for helper_script in readdir("lib")
       if ismatch(r"\.jl$", helper_script)
         message(" Running helper script: $(helper_script)")
-        include(file_path("lib", helper_script)) # How to force this Main?
+        # How can we force execution of include()'s in Main?
+        include(file_path("lib", helper_script))
         push(project_info["helpers"], helper_script)
       end
     end
@@ -37,7 +37,7 @@ function load_project()
       for package_to_load in config["libraries"]
         message(" Loading package: $(package_to_load)")
         try
-          load(package_to_load)
+          require(package_to_load)
         catch
           error("Failed to load package: $(package_to_load)")
         end
@@ -131,7 +131,8 @@ function load_project()
     end
 
     if config["recursive_loading"] == "on"
-      data_files = readdir("data") # Make this recursive
+      # Make this recursive
+      data_files = readdir("data")
     else
       data_files = readdir("data")
     end
