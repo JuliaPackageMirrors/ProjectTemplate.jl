@@ -21,7 +21,6 @@ function load_project()
     for helper_script in readdir("lib")
       if ismatch(r"\.jl$", helper_script)
         message(" Running helper script: $(helper_script)")
-        # How can we force execution of include()'s in Main?
         include(file_path("lib", helper_script))
         push(project_info["helpers"], helper_script)
       end
