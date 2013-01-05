@@ -3,10 +3,10 @@ function load_project()
   project_info["datasets"] = Dict{ASCIIString, Any}()
 
   message("Loading project configuration")
-  if !isfile(file_path("config", "global.json"))
+  if !isfile(joinpath("config", "global.json"))
     error("You are missing a configuration file: config/global.json")
   end
-  global config = read_config(file_path("config", "global.json"))
+  global config = read_config(joinpath("config", "global.json"))
   if !has(config, "libraries")
     warning("Your configuration file is missing an entry: libraries")
   end
@@ -21,7 +21,7 @@ function load_project()
     for helper_script in readdir("lib")
       if ismatch(r"\.jl$", helper_script)
         message(" Running helper script: $(helper_script)")
-        include(file_path("lib", helper_script))
+        include(joinpath("lib", helper_script))
         push(project_info["helpers"], helper_script)
       end
     end
@@ -65,7 +65,7 @@ function load_project()
     project_info["cache"] = String[]
 
     for cache_file in cache_files
-      filename = file_path("cache", cache_file)
+      filename = joinpath("cache", cache_file)
 
       for extension in keys(extensions_dispatch_table)
         if ismatch(extension, cache_file)
@@ -97,7 +97,7 @@ function load_project()
     project_info["cache"] = String[]
 
     for cache_file in cache_files
-      filename = file_path("cache", cache_file)
+      filename = joinpath("cache", cache_file)
 
       for extension in keys(extensions_dispatch_table)
         if ismatch(extension, cache_file)
@@ -138,7 +138,7 @@ function load_project()
     project_info["data"] = String[]
 
     for data_file in data_files
-      filename = file_path("data", data_file)
+      filename = joinpath("data", data_file)
 
       for extension in keys(extensions_dispatch_table)
         if ismatch(extension, data_file)
@@ -168,7 +168,7 @@ function load_project()
     for preprocessing_script in sort(readdir("munge"))
       if ismatch(r"\.jl$", preprocessing_script)
         message(" Running preprocessing script: $(preprocessing_script)")
-        include(file_path("munge", preprocessing_script))
+        include(joinpath("munge", preprocessing_script))
       end
     end
   end
@@ -184,7 +184,7 @@ function load_project()
   #   if !isdir("logs")
   #     dir_create("logs")
   #   end
-  #   logfile!(logger, file_path("logs", "project.log"))
+  #   logfile!(logger, joinpath("logs", "project.log"))
   #   level!(logger, log4jl.INFO)
   # end
 
