@@ -1,44 +1,44 @@
 function create_project(project_name::String)
 	mkdir("cache")
-	file_create(joinpath("cache", ".gitignore"))
+	touch(joinpath("cache", ".gitignore"))
 
 	mkdir("config")
-	file_create(joinpath("config", "global.json"))
+	touch(joinpath("config", "global.json"))
 
 	mkdir("data")
-	file_create(joinpath("data", ".gitignore"))
+	touch(joinpath("data", ".gitignore"))
 
 	mkdir("diagnotics")
-	file_create(joinpath("diagnotics", "01.jl"))
+	touch(joinpath("diagnotics", "01.jl"))
 
 	mkdir("doc")
-	file_create(joinpath("doc", ".gitignore"))
+	touch(joinpath("doc", ".gitignore"))
 
 	mkdir("graphs")
-	file_create(joinpath("graphs", ".gitignore"))
+	touch(joinpath("graphs", ".gitignore"))
 
 	mkdir("lib")
-	file_create(joinpath("lib", "helpers.jl"))
+	touch(joinpath("lib", "helpers.jl"))
 
 	mkdir("logs")
-	file_create(joinpath("logs", ".gitignore"))
+	touch(joinpath("logs", ".gitignore"))
 
 	mkdir("munge")
-	file_create(joinpath("munge", "01-A.jl"))
+	touch(joinpath("munge", "01-A.jl"))
 
 	mkdir("profiling")
-	file_create(joinpath("profiling", "01.jl"))
+	touch(joinpath("profiling", "01.jl"))
 
 	mkdir("reports")
-	file_create(joinpath("reports", ".gitignore"))
+	touch(joinpath("reports", ".gitignore"))
 
 	mkdir("src")
-	file_create(joinpath("src", "EDA.jl"))
+	touch(joinpath("src", "EDA.jl"))
 
 	mkdir("tests")
-	file_create(joinpath("tests", ".gitignore"))
+	touch(joinpath("tests", ".gitignore"))
 
-	file_create("README.md")
+	touch("README.md")
 
-	file_create("TODO.md")
+	touch("TODO.md")
 end
