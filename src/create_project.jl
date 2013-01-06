@@ -1,4 +1,4 @@
-function create_project{T <: String}(project_name::T)
+function create_project(project_name::String)
 	mkdir("cache")
 	file_create(joinpath("cache", ".gitignore"))
 

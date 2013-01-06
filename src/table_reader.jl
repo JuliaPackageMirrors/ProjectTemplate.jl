@@ -1,4 +1,4 @@
-function table_reader(filename, variable_name)
+function table_reader(filename::String, variable_name::String)
     assignment = expr(:global,
                       Any[expr(:(=),
                                Any[symbol(variable_name),

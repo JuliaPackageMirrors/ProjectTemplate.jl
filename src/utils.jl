@@ -1,17 +1,9 @@
-function message{T <: String}(str::T)
-  println(str)
-end
-
-function warning{T <: String}(str::T)
-  println(str)
-end
-
-function read_config{T <: String}(pathname::T)
+function read_config(pathname::String)
   config = JSON.parse(readall(pathname))
   return config
 end
 
-function clean_variable_name{T <: String}(variable_name::T)
+function clean_variable_name(variable_name::String)
   variable_name = replace(variable_name, r"^[^a-zA-Z0-9]+", "")
   variable_name = replace(variable_name, r"[^a-zA-Z0-9]+$", "")
   variable_name = replace(variable_name, r"_+", "_")

@@ -2,25 +2,25 @@ function load_project()
   global project_info = Dict{ASCIIString, Any}()
   project_info["datasets"] = Dict{ASCIIString, Any}()
 
-  message("Loading project configuration")
+  info("Loading project configuration")
   if !isfile(joinpath("config", "global.json"))
     error("You are missing a configuration file: config/global.json")
   end
   global config = read_config(joinpath("config", "global.json"))
   if !has(config, "libraries")
-    warning("Your configuration file is missing an entry: libraries")
+    warn("Your configuration file is missing an entry: libraries")
   end
 
   project_info["config"] = config
 
   if isdir("lib")
-    message("Autoloading helper functions")
+    info("Autoloading helper functions")
 
     project_info["helpers"] = String[]
 
     for helper_script in readdir("lib")
       if ismatch(r"\.jl$", helper_script)
-        message(" Running helper script: $(helper_script)")
+        info(" Running helper script: $(helper_script)")
         include(joinpath("lib", helper_script))
         push(project_info["helpers"], helper_script)
       end
@@ -28,13 +28,13 @@ function load_project()
   end
 
   if !has(config, "load_libraries")
-    warning("Your configuration file is missing an entry: load_libraries")
+    warn("Your configuration file is missing an entry: load_libraries")
   else
     if config["load_libraries"] == "on"
-      message("Autoloading packages")
+      info("Autoloading packages")
       project_info["packages"] = String[]
       for package_to_load in config["libraries"]
-        message(" Loading package: $(package_to_load)")
+        info(" Loading package: $(package_to_load)")
         try
           require(package_to_load)
         catch
@@ -46,16 +46,16 @@ function load_project()
   end
 
   if !has(config, "cache_loading")
-    warning("Your configuration file is missing an entry: cache_loading")
+    warn("Your configuration file is missing an entry: cache_loading")
     config["cache_loading"] = "off"
   end
   if !has(config, "data_loading")
-    warning("Your configuration file is missing an entry: data_loading")
+    warn("Your configuration file is missing an entry: data_loading")
     config["data_loading"] = "off"
   end
 
   if config["data_loading"] != "on" && config["cache_loading"] == "on"
-    message("Autoloading cache")
+    info("Autoloading cache")
 
     # First, we load everything out of cache/.
     if !isdir("cache")
@@ -77,7 +77,7 @@ function load_project()
           #   continue
           # end
 
-          message(" Loading cached data set: variable_name")
+          info(" Loading cached data set: variable_name")
           project_info["datasets"][variable_name] = apply(extensions_dispatch_table[extension], (filename, variable_name))
           push(project_info["cache"], variable_name)
           break
@@ -87,7 +87,7 @@ function load_project()
   end
 
   if config["data_loading"] == "on"
-    message("Autoloading data")
+    info("Autoloading data")
 
     # First, we load everything out of cache/.
     if !isdir("cache")
@@ -110,7 +110,7 @@ function load_project()
           #   continue
           # end
 
-          message(" Loading cached data set: $(variable_name)")
+          info(" Loading cached data set: $(variable_name)")
           project_info["datasets"][variable_name] = apply(extensions_dispatch_table[extension], (filename, variable_name))
           push(project_info["cache"], variable_name)
           break
@@ -125,7 +125,7 @@ function load_project()
 
     # If recursive_loading
     if !has(config, "recursive_loading")
-      warning("Your configuration file is missing an entry: recursive_loading")
+      warn("Your configuration file is missing an entry: recursive_loading")
       config["recursive_loading"] = "off"
     end
 
@@ -151,7 +151,7 @@ function load_project()
           #   continue
           # end
 
-          message(" Loading data set: $(variable_name)")
+          info(" Loading data set: $(variable_name)")
           project_info["datasets"][variable_name] = apply(extensions_dispatch_table[extension], (filename, variable_name))
           push(project_info["data"], variable_name)
           break
@@ -161,13 +161,13 @@ function load_project()
   end
 
   if !has(config, "munging")
-    warning("Your configuration file is missing an entry: munging")
+    warn("Your configuration file is missing an entry: munging")
   end
   if config["munging"] == "on"
-    message("Munging data")
+    info("Munging data")
     for preprocessing_script in sort(readdir("munge"))
       if ismatch(r"\.jl$", preprocessing_script)
-        message(" Running preprocessing script: $(preprocessing_script)")
+        info(" Running preprocessing script: $(preprocessing_script)")
         include(joinpath("munge", preprocessing_script))
       end
     end
@@ -175,11 +175,11 @@ function load_project()
 
   # TODO: Finish log4jl
   # if !has(config, "logging")
-  #   warning("Your configuration file is missing an entry: logging")
+  #   warn("Your configuration file is missing an entry: logging")
   # end
   # if config["logging"] == "on"
-  #   message("Initializing logger")
-  #   load("log4jl")
+  #   info("Initializing logger")
+  #   require("log4jl")
   #   global logger = create_logger()
   #   if !isdir("logs")
   #     dir_create("logs")
