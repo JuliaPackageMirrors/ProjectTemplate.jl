@@ -13,14 +13,12 @@ Nevertheless, the package is usable.
 
 # Creating a Project
 
-	require("ProjectTemplate")
 	using ProjectTemplate
 
 	create_project("MyFirstPackage")
 
 # Working with an Existing Project
 
-	require("ProjectTemplate")
 	using ProjectTemplate
 
 	load_project()
@@ -34,7 +32,7 @@ Nevertheless, the package is usable.
 	# We can do some fancy metaprogramming to view the autoloaded datasets
 	#
 	for dataset in ProjectTemplate.project_info["data"]
-		@eval print_table($(symbol(dataset)))
+		@eval printtable($(symbol(dataset)))
 	end
 
 # Translating a Project from R to Julia

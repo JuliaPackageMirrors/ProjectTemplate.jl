@@ -13,7 +13,7 @@ function create_project(project_name::String)
                 "logging" => "off",
                 "libraries" => []
              }
-    config_text = JSON.to_json(config)
+    config_text = JSON.json(config)
     config_text = replace(config_text, r",", ",\n")
     io = open(joinpath("config", "global.json"), "w")
     println(io, config_text)

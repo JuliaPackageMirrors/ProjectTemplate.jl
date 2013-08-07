@@ -1,11 +1,10 @@
 function table_reader(filename::String, variable_name::String)
-    assignment = expr(:global,
-                      Any[expr(:(=),
-                               Any[symbol(variable_name),
-                                   DataFrames.read_table(filename)])])
-    to_top = expr(:toplevel,
-                  Any[assignment,
-                      expr(:export,
-                           Any[symbol(variable_name)])])
+    assignment = Expr(:global,
+                      Expr(:(=),
+                           symbol(variable_name),
+                           DataFrames.readtable(filename)))
+    to_top = Expr(:toplevel,
+                  assignment,
+                  Expr(:export, symbol(variable_name)))
     eval(to_top)
 end
