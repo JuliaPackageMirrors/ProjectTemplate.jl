@@ -1,13 +1,16 @@
-using DataFrames
+using DataArrays, DataFrames
 
 module ProjectTemplate
-	using JSON
-	using DataFrames
+    using JSON
+    using DataArrays, DataFrames
 
-	export create_project, load_project
-	include("utils.jl")
-	include("table_reader.jl")
-	include("extensions_dispatch_table.jl")
-	include("create_project.jl")
-	include("load_project.jl")
+    export createproject, loadproject
+
+    Base.@deprecate create_project createproject
+    Base.@deprecate load_project loadproject
+
+    include("types.jl")
+    include("extensions.jl")
+    include("createproject.jl")
+    include("loadproject.jl")
 end

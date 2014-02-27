@@ -15,13 +15,13 @@ Nevertheless, the package is usable.
 
 	using ProjectTemplate
 
-	create_project("MyFirstPackage")
+	createproject("MyFirstPackage")
 
 # Working with an Existing Project
 
 	using ProjectTemplate
 
-	load_project()
+	loadproject()
 
 	# Assume that the first dataset was called dataset1
 	head(dataset1)
