@@ -1,6 +1,10 @@
 ProjectTemplate.jl
 ==================
 
+# NOTICE
+
+**This package is unmaintained. Its reliability is not guaranteed.**
+
 # Introduction
 
 ProjectTemplate.jl is a draft port of the ProjectTemplate package for R to
